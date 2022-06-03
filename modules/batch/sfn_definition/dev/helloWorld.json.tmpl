@@ -1,0 +1,21 @@
+{
+    "StartAt": "helloWorld",
+    "States": {
+        "helloWorld": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::ecs:runTask.sync",
+            "Parameters": {
+                "LaunchType": "FARGATE",
+                "Cluster": "${cluster_arn}",
+                "TaskDefinition": "${task_definition_arn}",
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "SecurityGroups": ${jsonencode(security_groups)},
+                        "Subnets": ${jsonencode(subnets)}
+                    }
+                }
+            },
+            "End": true
+        }
+    }
+}
